@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/VRMovementPack/Demos/Demo_Autowalk.unity
+    guid: d1f2712db21c8e94f9644ff91e251b05
   m_configObjects: {}
