@@ -9,8 +9,8 @@ namespace WhackAMole
 
 		void Update()
 		{
-			if (GvrPointerInputModule.Pointer.TriggerDown)
-			{
+			//if (GvrPointerInputModule.Pointer.TriggerDown)
+			//{
 				RaycastHit hit;
 
 				if (Physics.Raycast(transform.position, transform.forward, out hit))
@@ -24,7 +24,7 @@ namespace WhackAMole
 						score++;
 					}
 				}
-			}
+			//}
 		}
 	}
 }

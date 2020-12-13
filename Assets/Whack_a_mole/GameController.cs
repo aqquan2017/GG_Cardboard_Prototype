@@ -55,9 +55,14 @@ namespace WhackAMole
 				resetTimer -= Time.deltaTime;
 				if (resetTimer <= 0f)
 				{
-					SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+					WinGame();
 				}
 			}
+		}
+
+		public void WinGame()
+        {
+			//SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}
 }
