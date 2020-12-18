@@ -5,26 +5,19 @@ namespace XO
 {
 	public class Piece : MonoBehaviour
 	{
-
+		private GazeObject gaze;
 		public GameObject pieceX;
 		public GameObject pieceO;
 
 		public bool defined;
 		public int value = 0;
 
-		// Use this for initialization
-		void Start()
-		{
+        private void Start()
+        {
+			gaze = GetComponent<GazeObject>();
+        }
 
-		}
-
-		// Update is called once per frame
-		void Update()
-		{
-
-		}
-
-		public void CleanSelection()
+        public void CleanSelection()
 		{
 			defined = false;
 			value = 0;
@@ -37,6 +30,8 @@ namespace XO
 			defined = true;
 			value = 1;
 			pieceX.SetActive(true);
+			SoundManager.instance.PlayHitSound(SoundManager.instance.playSound);
+
 		}
 
 		public void ComputerSelect()

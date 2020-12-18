@@ -3,28 +3,20 @@ namespace WhackAMole
 {
 	public class Player : MonoBehaviour
 	{
-
+        public MoveToMe curArrow;
+        public GazeController gazeController;
 		public int score = 0;
 		public Hammer hammer;
+        
 
-		void Update()
-		{
-			//if (GvrPointerInputModule.Pointer.TriggerDown)
-			//{
-				RaycastHit hit;
+        public void OnHit(Mole mole)
+        {
+            print("HIT");
+            SoundManager.instance.PlayHitSound(SoundManager.instance.hitSound);
+            mole.OnHit();
+            hammer.Hit(mole.transform.position);
 
-				if (Physics.Raycast(transform.position, transform.forward, out hit))
-				{
-					if (hit.transform.GetComponent<Mole>() != null)
-					{
-						Mole mole = hit.transform.GetComponent<Mole>();
-						mole.OnHit();
-						hammer.Hit(mole.transform.position);
-
-						score++;
-					}
-				}
-			//}
-		}
-	}
+            score++;
+        }
+    }
 }

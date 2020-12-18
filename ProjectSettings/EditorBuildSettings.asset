@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/KKSpeechRecognizer/Example/ExampleScene.unity
-    guid: 1a1e869bff86843f48395c9dc3c133e8
+    path: Assets/Scenes/Whack.unity
+    guid: 20936c74bbd358548b2d9deba2eee960
   m_configObjects: {}

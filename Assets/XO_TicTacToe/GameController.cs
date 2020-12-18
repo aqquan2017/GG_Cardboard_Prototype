@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
@@ -6,8 +7,7 @@ namespace XO
 {
 	public class GameController : MonoBehaviour
 	{
-
-		public Player player;
+		public PlayerXO player;
 		public Piece[] pieces;
 		public TextMesh infoText;
 
@@ -22,31 +22,22 @@ namespace XO
 				OnPlayerSelected();
 			};
 
+			ResetGame();
+			ActiveBoard(true);
+		}
+
+		void ResetGame()
+        {
+			infoText.text = "Ăn tao đê !";
+			resetTimer = 3f;
 			foreach (Piece piece in pieces)
 			{
 				piece.CleanSelection();
+				piece.GetComponent<GazeObject>().SwitchStateOn();
 			}
 
+			isGameOver = false;
 			PickRandomPiece();
-		}
-
-		// Update is called once per frame
-		void Update()
-		{
-			if (isGameOver == true)
-			{
-				player.locked = true;
-
-				resetTimer -= Time.deltaTime;
-				if (resetTimer <= 0f)
-				{
-					SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-				}
-			}
-			else
-			{
-				infoText.text = "Beat the computer!";
-			}
 		}
 
 		void OnPlayerSelected()
@@ -80,10 +71,19 @@ namespace XO
 				}
 
 				randomPiece.ComputerSelect();
+				CheckBoard();
 			}
 		}
 
-		void CheckBoard()
+		void ActiveBoard(bool state)
+        {
+			foreach(var p in pieces)
+            {
+				p.GetComponent<GazeObject>().state = state;
+            }
+        }
+
+		public void CheckBoard()
 		{
 			// Horizontal check
 			for (int y = 0; y < 3; y++)
@@ -113,13 +113,17 @@ namespace XO
 				{
 					if (pieceCheck.value == 1)
 					{
-						infoText.text = "You win!";
+						infoText.text = "Giỏi !";
+						SoundManager.instance.PlayHitSound(SoundManager.instance.winSound);
 					}
 					else
 					{
-						infoText.text = "You lose!";
+						infoText.text = "Ngu !";
+						SoundManager.instance.PlayHitSound(SoundManager.instance.loseSound);
 					}
 					isGameOver = true;
+					print("HORIZONTAL WIN");
+					ResetGameCroundtine();
 					return;
 				}
 			}
@@ -152,16 +156,97 @@ namespace XO
 				{
 					if (pieceCheck.value == 1)
 					{
-						infoText.text = "You win!";
+						infoText.text = "Giỏi !";
+						SoundManager.instance.PlayHitSound(SoundManager.instance.winSound);
+
 					}
 					else
 					{
-						infoText.text = "You lose!";
+						infoText.text = "Ngu !";
+						SoundManager.instance.PlayHitSound(SoundManager.instance.loseSound);
 					}
 					isGameOver = true;
+					print("Vertical WIN");
+					ResetGameCroundtine();
 					return;
 				}
 			}
+
+			// Diagonal check 0 4 8 
+			if((pieces[0].value == pieces[4].value && pieces[4].value == pieces[8].value)
+				&& (pieces[0].value != 0))
+            {
+				if (pieces[0].value == 1)
+				{
+					infoText.text = "Giỏi !";
+					SoundManager.instance.PlayHitSound(SoundManager.instance.winSound);
+				}
+				else if (pieces[0].value == 2) { 
+					infoText.text = "Ngu !";
+					SoundManager.instance.PlayHitSound(SoundManager.instance.loseSound);
+				}
+				ResetGameCroundtine();
+				isGameOver = true;
+				print("Diagonal left WIN");
+
+				return;
+			}
+
+			// Diagonal check 2 4 6
+			if ((pieces[2].value == pieces[4].value && pieces[4].value == pieces[6].value)
+				&& (pieces[2].value != 0))
+			{
+				if (pieces[2].value == 1)
+				{
+					infoText.text = "Giỏi !";
+					SoundManager.instance.PlayHitSound(SoundManager.instance.winSound);
+				}
+				else if (pieces[2].value == 2)
+				{
+					infoText.text = "Ngu !";
+					SoundManager.instance.PlayHitSound(SoundManager.instance.loseSound);
+				}
+				ResetGameCroundtine();
+				isGameOver = true;
+				print("Diagonal right WIN");
+
+				return;
+			}
+
+
+			//CheckDraw
+			bool check = false;
+			foreach(var p in pieces){
+				if(p.value == 0)
+                {
+					check = true;
+					break;
+                }
+            }
+			if(!check)
+            {
+				infoText.text = "Hòa rồi pạn ơi !";
+				SoundManager.instance.PlayHitSound(SoundManager.instance.winSound);
+				isGameOver = true;
+				print("CheckDraw WIN");
+				ResetGameCroundtine();
+				return;
+			}
 		}
+
+		void ResetGameCroundtine()
+        {
+			StopAllCoroutines();
+			StartCoroutine(WaitToResetGame());
+		}
+
+		IEnumerator WaitToResetGame()
+        {
+			ActiveBoard(false);
+			yield return new WaitForSeconds(2f);
+			ResetGame();
+        }
 	}
+
+	
 }

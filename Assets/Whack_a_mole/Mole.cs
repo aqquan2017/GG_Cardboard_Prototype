@@ -5,14 +5,15 @@ namespace WhackAMole
 {
 	public class Mole : MonoBehaviour
 	{
-
 		public float visibleHeight = 0.2f;
 		public float hiddenHeight = -0.3f;
 		public float speed = 4f;
-		public float disappearDuration = 0.5f;
+		public float disappearDuration = 2f;
 
 		private Vector3 targetPosition;
 		private float disappearTimer = 0f;
+		
+		public GazeObject gazeObj;
 
 		// Use this for initialization
 		void Awake()
@@ -26,8 +27,14 @@ namespace WhackAMole
 			transform.localPosition = targetPosition;
 		}
 
-		// Update is called once per frame
-		void Update()
+        private void Start()
+        {
+			gazeObj = GetComponent<GazeObject>();
+			
+		}
+
+        // Update is called once per frame
+        void Update()
 		{
 			disappearTimer -= Time.deltaTime;
 			if (disappearTimer <= 0f)
@@ -40,6 +47,7 @@ namespace WhackAMole
 
 		public void Rise()
 		{
+			gazeObj.state = true;
 			targetPosition = new Vector3(
 				transform.localPosition.x,
 				visibleHeight,
@@ -51,6 +59,7 @@ namespace WhackAMole
 
 		public void Hide()
 		{
+			//gazeObj.state = false;
 			targetPosition = new Vector3(
 				transform.localPosition.x,
 				hiddenHeight,
