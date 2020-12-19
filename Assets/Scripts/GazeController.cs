@@ -26,7 +26,6 @@ public class GazeController : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-
         if (Physics.Raycast(transform.position, transform.forward, out hit ,10f))
         {
             if (hit.transform.GetComponent<GazeObject>() != null)
