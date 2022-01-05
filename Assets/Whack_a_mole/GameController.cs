@@ -13,8 +13,8 @@ namespace WhackAMole
 		public float spawnDuration = 1.5f;
 		public float spawnDecrement = 0.1f;
 		public float minimumSpawnDuration = 0.5f;
-		public float gameTimer = 30f;
-		public bool isPlay = false;
+		[SerializeField] float gameTimer = 30f;
+		[SerializeField] bool isPlay = false;
 
 		private Mole[] moles;
 		private float spawnTimer = 0f;
@@ -31,6 +31,11 @@ namespace WhackAMole
 			isPlay = !isPlay;
 
         }
+
+		public void SetGameTimer(float gameTime)
+        {
+			gameTimer = gameTime;
+		}
 
 		// Update is called once per frame
 		void Update()

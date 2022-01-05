@@ -6,7 +6,7 @@ public class SwitchBtn : MonoBehaviour
 {
     public Material trigger;
     public Material nottrigger;
-    public GazeObject gaze;
+    [SerializeField] GazeObject gaze;
     private MeshRenderer render;
 
     void Start()
